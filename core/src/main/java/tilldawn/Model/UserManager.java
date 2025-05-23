@@ -11,15 +11,20 @@ public class UserManager {
 
     private final FileHandle file = Gdx.files.local("Users.json");
     private final Json json = new Json();
+    private User loggedInUser;
 
     private final ArrayList<User> users;
 
     public UserManager() {
+
+        loggedInUser = null;
+
         if (file.exists()) {
             users = json.fromJson(ArrayList.class, file);
         } else {
             users = new ArrayList<>();
         }
+
     }
 
     private boolean isUsernameTaken(String username) {
@@ -54,6 +59,27 @@ public class UserManager {
         json.toJson(users, file);
 
         return new Result(true, "You signed up successfully.");
+    }
+
+    public boolean deleteUser(String username) {
+
+        int index = -1;
+
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username)) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            return false;
+        }
+
+        users.remove(index);
+        json.toJson(users, file);
+
+        return true;
     }
 
     public ArrayList<User> getUsers() {
@@ -95,4 +121,23 @@ public class UserManager {
         return new Result(false, "User does not exist!");
     }
 
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public User getUser(String username) {
+
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+
+        return null;
+
+    }
 }

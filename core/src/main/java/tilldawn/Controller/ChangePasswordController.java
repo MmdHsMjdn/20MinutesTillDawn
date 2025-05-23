@@ -1,0 +1,47 @@
+package tilldawn.Controller;
+
+import tilldawn.Main;
+import tilldawn.Model.Result;
+import tilldawn.View.ChangePasswordView;
+import tilldawn.View.ProfileMenuView;
+
+public class ChangePasswordController {
+
+    private ChangePasswordView view;
+
+    public void setView(ChangePasswordView view) {
+        this.view = view;
+    }
+
+    public void handleChangePasswordViewButtons() {
+
+        if (view == null) {
+            return;
+        }
+
+        if (view.getBackButton().isChecked()) {
+            view.getBackButton().setChecked(false);
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new ProfileMenuView());
+        }
+
+        if (view.getChangePasswordButton().isChecked()) {
+
+            view.getChangePasswordButton().setChecked(false);
+
+            if (view.isNewPasswordEmpty()) {
+                return;
+            }
+
+            Result temp =
+                Main.getMain().getUserManager().changePassword(Main.getMain().getUserManager().getLoggedInUser().getUsername(), view.getNewPasswordField().getText());
+
+            view.showTemporaryMessage(temp.message, () -> {
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new ProfileMenuView());
+            });
+
+        }
+    }
+
+}

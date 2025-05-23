@@ -2,7 +2,7 @@ package tilldawn.View;
 
 import com.badlogic.gdx.Screen;
 
-public class LoginMenuView implements Screen {
+public class ChangeAvatarView implements Screen {
     @Override
     public void show() {
 

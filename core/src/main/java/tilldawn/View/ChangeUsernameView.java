@@ -7,60 +7,70 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import tilldawn.Controller.ProfileMenuController;
+import tilldawn.Controller.ChangeUsernameController;
 import tilldawn.Main;
 
-public class ProfileMenuView implements Screen {
+public class ChangeUsernameView implements Screen {
 
     private Stage stage;
-    private final TextButton changeUsername;
-    private final TextButton changePassword;
-    private final TextButton changeAvatar;
-    private final TextButton deleteAccount;
-    private final TextButton exit;
+    private final TextButton changeUsernameButton;
+    private final TextButton backButton;
     private final Label label;
     private final Label messageLabel;
+    private final TextField newUsernameField;
     private final Table table;
-    private final ProfileMenuController controller;
+    private final ChangeUsernameController controller;
 
-
-    public ProfileMenuView() {
-        this.controller = new ProfileMenuController();
-        this.label = new Label("Profile menu", Main.getMain().getGameAssetManager().getSkin());
+    public ChangeUsernameView() {
+        this.controller = new ChangeUsernameController();
+        this.label = new Label("Change username", Main.getMain().getGameAssetManager().getSkin());
+        this.changeUsernameButton = new TextButton("Change username", Main.getMain().getGameAssetManager().getSkin());
+        this.backButton = new TextButton("Back", Main.getMain().getGameAssetManager().getSkin());
         this.messageLabel = new Label("", Main.getMain().getGameAssetManager().getSkin());
         this.messageLabel.setVisible(false);
-        this.changeUsername = new TextButton("Change username", Main.getMain().getGameAssetManager().getSkin());
-        this.changePassword = new TextButton("Change password", Main.getMain().getGameAssetManager().getSkin());
-        this.changeAvatar = new TextButton("Change avatar", Main.getMain().getGameAssetManager().getSkin());
-        this.deleteAccount = new TextButton("Delete account", Main.getMain().getGameAssetManager().getSkin());
-        this.exit = new TextButton("Exit", Main.getMain().getGameAssetManager().getSkin());
+
+        this.newUsernameField = new TextField("New username: ", Main.getMain().getGameAssetManager().getSkin());
+        addClearOnFirstClick(newUsernameField, "New username: ");
+
         this.table = new Table();
         controller.setView(this);
+
     }
+
+    private void addClearOnFirstClick(final TextField field, final String defaultText) {
+        field.addListener(new ClickListener() {
+            private boolean cleared = false;
+
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                if (!cleared && field.getText().equals(defaultText)) {
+                    field.setText("");
+                    cleared = true;
+                }
+            }
+        });
+    }
+
 
     @Override
     public void show() {
-
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         table.setFillParent(true);
         table.center();
         table.add(label);
-        table.row().pad(40,0,0,0);
-        table.add(changeUsername).width(500);
-        table.row().pad(40,0,0,0);
-        table.add(changePassword).width(500);
-        table.row().pad(40,0,0,0);
-        table.add(changeAvatar).width(500);
-        table.row().pad(40,0,0,0);
-        table.add(deleteAccount).width(500);
-        table.row().pad(40,0,0,0);
-        table.add(exit).width(500);
-        table.row().pad(40,0,0,0);
+        table.row().pad(40, 0, 0, 0);
+        table.add(newUsernameField).width(500).height(100);
+        table.row().pad(40, 0, 0, 0);
+        table.add(changeUsernameButton).width(500).height(100);
+        table.row().pad(40, 0, 0, 0);
+        table.add(backButton).width(500).height(100);
         stage.addActor(messageLabel);
         stage.addActor(table);
 
@@ -73,7 +83,7 @@ public class ProfileMenuView implements Screen {
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        controller.handleProfileMenuButtons();
+        controller.handleChangeUsernameViewButtons();
     }
 
     @Override
@@ -101,24 +111,20 @@ public class ProfileMenuView implements Screen {
 
     }
 
-    public TextButton getChangeUsername() {
-        return changeUsername;
+    public TextButton getChangeUsernameButton() {
+        return changeUsernameButton;
     }
 
-    public TextButton getChangePassword() {
-        return changePassword;
+    public TextField getNewUsernameField() {
+        return newUsernameField;
     }
 
-    public TextButton getChangeAvatar() {
-        return changeAvatar;
+    public TextButton getBackButton() {
+        return backButton;
     }
 
-    public TextButton getDeleteAccount() {
-        return deleteAccount;
-    }
-
-    public TextButton getExit() {
-        return exit;
+    public boolean isNewUsernameFieldEmpty() {
+        return newUsernameField.getText().trim().isEmpty() || newUsernameField.getText().equals("New username: ");
     }
 
     public void showTemporaryMessage(String message , Runnable action) {
@@ -139,4 +145,5 @@ public class ProfileMenuView implements Screen {
 
         } , 3);
     }
+
 }

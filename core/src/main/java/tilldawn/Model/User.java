@@ -5,6 +5,7 @@ public class User {
     private String username;
     private String password;
     private String securityAnswer;
+    private int score;
 
     public User() {}
 
@@ -12,6 +13,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.securityAnswer = securityAnswer;
+        this.score = 0;
     }
 
     public String getUsername() {
@@ -32,5 +34,13 @@ public class User {
 
     public String getSecurityAnswer() {
         return securityAnswer;
+    }
+
+    public void increaseScore(int value) {
+        score += value;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

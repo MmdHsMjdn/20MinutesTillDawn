@@ -12,38 +12,34 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import tilldawn.Controller.SignUpMenuController;
+import tilldawn.Controller.LoginWithForgotPasswordOptionController;
 import tilldawn.Main;
 
-public class SignUpMenuView implements Screen {
+public class LoginWithForgotPasswordOptionMenuView implements Screen {
 
     private Stage stage;
-    private final TextButton signUpButton;
-    private final TextButton loginButton;
+    private final TextButton changePasswordButton;
     private final Label label;
     private final Label messageLabel;
     private final TextField usernameField;
-    private final TextField passwordField;
+    private final TextField newPasswordField;
     private final TextField securityQuestionField;
     private final Table table;
-    private final SignUpMenuController controller;
+    private final LoginWithForgotPasswordOptionController controller;
 
-    public SignUpMenuView() {
-        this.controller = new SignUpMenuController();
-        this.signUpButton = new TextButton("Sign up", Main.getMain().getGameAssetManager().getSkin());
-        this.loginButton = new TextButton("Login", Main.getMain().getGameAssetManager().getSkin());
-        this.label = new Label("Sign up menu", Main.getMain().getGameAssetManager().getSkin());
+    public LoginWithForgotPasswordOptionMenuView() {
+        this.controller = new LoginWithForgotPasswordOptionController();
+        this.changePasswordButton = new TextButton("Change password", Main.getMain().getGameAssetManager().getSkin());
+        this.label = new Label("Account recovery", Main.getMain().getGameAssetManager().getSkin());
+        this.usernameField = new TextField("Username: ", Main.getMain().getGameAssetManager().getSkin());
+        this.newPasswordField = new TextField("New password: ", Main.getMain().getGameAssetManager().getSkin());
+        this.securityQuestionField = new TextField("Place of birth: ", Main.getMain().getGameAssetManager().getSkin());
         this.messageLabel = new Label("", Main.getMain().getGameAssetManager().getSkin());
         this.messageLabel.setVisible(false);
 
-        this.usernameField = new TextField("Username: ", Main.getMain().getGameAssetManager().getSkin());
-        this.passwordField = new TextField("Password: ", Main.getMain().getGameAssetManager().getSkin());
-        this.securityQuestionField = new TextField("Place of birth: ", Main.getMain().getGameAssetManager().getSkin());
-
-        passwordField.setPasswordMode(false);
-
+        newPasswordField.setPasswordMode(false);
         addClearOnFirstClick(usernameField, "Username: ");
-        addClearOnFirstClick(passwordField, "Password: ");
+        addClearOnFirstClick(newPasswordField, "New password: ");
         addClearOnFirstClick(securityQuestionField, "Place of birth: ");
 
         this.table = new Table();
@@ -60,7 +56,7 @@ public class SignUpMenuView implements Screen {
                     field.setText("");
                     cleared = true;
 
-                    if (field == passwordField) {
+                    if (field == newPasswordField) {
                         field.setPasswordMode(true);
                         field.setPasswordCharacter('*');
                     }
@@ -72,6 +68,7 @@ public class SignUpMenuView implements Screen {
 
     @Override
     public void show() {
+
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -81,15 +78,13 @@ public class SignUpMenuView implements Screen {
         table.row().pad(40, 0, 0, 0);
         table.add(usernameField).width(500).height(100);
         table.row().pad(20, 0, 0, 0);
-        table.add(passwordField).width(500).height(100);
+        table.add(newPasswordField).width(500).height(100);
         table.row().pad(20, 0, 0, 0);
         table.add(securityQuestionField).width(500).height(100);
-        table.row().pad(40, 0, 20, 0);
-        table.add(signUpButton).width(500).height(100);
-        table.row().pad(20,0,0,0);
-        table.add(loginButton).width(500).height(100);
-        stage.addActor(messageLabel);
+        table.row().pad(20, 0, 0, 0);
+        table.add(changePasswordButton).width(500);
         stage.addActor(table);
+        stage.addActor(messageLabel);
     }
 
     @Override
@@ -99,44 +94,60 @@ public class SignUpMenuView implements Screen {
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        controller.handleSignUpMenuButtons();
+        controller.handleLoginWithForgotPasswordOptionMenuButtons();
     }
 
     @Override
-    public void resize(int i, int i1) {}
+    public void resize(int i, int i1) {
+
+    }
 
     @Override
-    public void pause() {}
+    public void pause() {
+
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+
+    }
 
     @Override
     public void dispose() {
-        stage.dispose();
+
     }
 
-    public TextButton getSignUpButton() {
-        return signUpButton;
+    public TextField getNewPasswordField() {
+        return newPasswordField;
     }
 
-    public TextButton getLoginButton() {
-        return loginButton;
+    public TextField getSecurityQuestionField() {
+        return securityQuestionField;
     }
 
     public TextField getUsernameField() {
         return usernameField;
     }
 
-    public TextField getPasswordField() {
-        return passwordField;
+    public TextButton getChangePasswordButton() {
+        return changePasswordButton;
     }
 
-    public TextField getSecurityQuestionField() {
-        return securityQuestionField;
+    public boolean isUsernameEmpty() {
+        return usernameField.getText().trim().isEmpty() || usernameField.getText().equals("Username: ");
+    }
+
+    public boolean isNewPasswordEmpty() {
+        return newPasswordField.getText().trim().isEmpty() || newPasswordField.getText().equals("Password: ");
+    }
+
+    public boolean isSecurityQuestionEmpty() {
+        return securityQuestionField.getText().trim().isEmpty() || securityQuestionField.getText().equals("Place of birth: ");
     }
 
     public void showTemporaryMessage(String message , Runnable action) {
@@ -157,17 +168,4 @@ public class SignUpMenuView implements Screen {
 
         } , 3);
     }
-
-    public boolean isUsernameEmpty() {
-        return usernameField.getText().trim().isEmpty() || usernameField.getText().equals("Username: ");
-    }
-
-    public boolean isPasswordEmpty() {
-        return passwordField.getText().trim().isEmpty() || passwordField.getText().equals("Password: ");
-    }
-
-    public boolean isSecurityQuestionEmpty() {
-        return securityQuestionField.getText().trim().isEmpty() || securityQuestionField.getText().equals("Place of birth: ");
-    }
-
 }
