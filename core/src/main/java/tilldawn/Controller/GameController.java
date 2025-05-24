@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import tilldawn.Main;
 import tilldawn.View.GameView;
 
 public class GameController {
@@ -15,7 +14,7 @@ public class GameController {
     private static final float viewWidth = Gdx.graphics.getWidth();
     private static final float viewHeight = Gdx.graphics.getHeight();
     private WorldController worldController;
-    //playerController
+    private PlayerController playerController;
 
     public GameController() {
         this.camera = new OrthographicCamera();
@@ -23,8 +22,19 @@ public class GameController {
     }
 
     public void setView(GameView view) {
+
         this.view = view;
+        setWorldController();
+        setPlayerController();
+
+    }
+
+    private void setWorldController() {
         this.worldController = new WorldController(view.getWorld() , camera);
+    }
+
+    private void setPlayerController() {
+        this.playerController = new PlayerController(view.getPlayer());
     }
 
     public void updateGame(float delta) {
@@ -32,14 +42,16 @@ public class GameController {
         Vector3 mouseWorldPosition = mouseWorldPosition();
         Vector2 playerMovement = playerMovement();
 
-        view.getPlayer().update(delta,mouseWorldPosition,playerMovement);// player controller.update
+        playerController.update(delta,playerMovement,mouseWorldPosition);
         worldController.update(view.getPlayer().getPosition() , mouseWorldPosition);
 
     }
 
     public void draw() {
+
         worldController.draw();
-        view.getPlayer().draw(Main.getBatch());// -> playerController.draw
+       playerController.draw();
+
     }
 
     private Vector2 playerMovement() {

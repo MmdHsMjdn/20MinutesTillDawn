@@ -1,6 +1,5 @@
 package tilldawn.Model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -24,6 +23,7 @@ public class Player {
     private float health = 100;
     private static final float maxHealth = 100;
     private final Rectangle collisionRect;
+    private float soundStepTimer = 0.0f;
     private float speed = 300;
     private float stateTime = 0;
     private boolean isMoving = false;
@@ -180,7 +180,7 @@ public class Player {
         this.stateTime = stateTime;
     }
 
-    public void update(float delta, Vector3 mouseWorldPosition, Vector2 moveInput) {
+    public void update(float delta,Vector2 moveInput,Vector3 mouseWorldPosition) {
         updateMovement(delta, moveInput);
         updateRotation(mouseWorldPosition);
         updateAnimation(delta, moveInput);
@@ -189,12 +189,19 @@ public class Player {
     }
 
     private void updateMovement(float delta, Vector2 moveInput) {
+
+        soundStepTimer += delta;
+
         if (!moveInput.isZero()) {
             moveInput.nor().scl(speed * delta);
             position.add(moveInput);
+            if (soundStepTimer >= 0.5f) {
+                Sfx.playWalk1(0.05f);
+                soundStepTimer = 0.0f;
+            }
         }
-        position.x = MathUtils.clamp(position.x, playerSprite.getWidth() +5,3195 - playerSprite.getWidth());
-        position.y = MathUtils.clamp(position.y, playerSprite.getHeight() +5,3195 - playerSprite.getHeight());
+        position.x = MathUtils.clamp(position.x, playerSprite.getWidth() +10,3190 - playerSprite.getWidth());
+        position.y = MathUtils.clamp(position.y, playerSprite.getHeight() +10,3190 - playerSprite.getHeight());
     }
 
     private void updateRotation(Vector3 mouseWorldPosition) {
