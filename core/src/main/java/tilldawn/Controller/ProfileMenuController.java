@@ -44,7 +44,10 @@ public class ProfileMenuController {
             Main.getMain().getUserManager().setLoggedInUser(null);
 
             if (Main.getMain().getUserManager().deleteUser(username)) {
-                view.showTemporaryMessage("Your account deleted successfully.",()->{});
+                view.showTemporaryMessage("Your account deleted successfully.",()->{
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new MainMenuView());
+                });
             }
 
         } else if (view.getExit().isChecked()) {

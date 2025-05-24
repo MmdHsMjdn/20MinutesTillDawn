@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import tilldawn.Model.GameAssetManager;
 import tilldawn.Model.UserManager;
+import tilldawn.View.GameView;
 import tilldawn.View.SignUpMenuView;
 
 
@@ -22,7 +23,7 @@ public class Main extends Game {
         batch = new SpriteBatch();
         gameAssetManager = new GameAssetManager();
         userManager = new UserManager();
-        getMain().setScreen(new SignUpMenuView());
+        getMain().setScreen(new GameView(11));
     }
 
     @Override

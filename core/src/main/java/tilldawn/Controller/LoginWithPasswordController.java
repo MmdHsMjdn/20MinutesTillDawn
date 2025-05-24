@@ -65,7 +65,7 @@ public class LoginWithPasswordController {
 
         Main.getMain().getUserManager().setLoggedInUser(temp);
 
-        return new Result(true, "You Logged in successfully!");
+        return new Result(true, "You Logged in successfully.");
 
     }
 
