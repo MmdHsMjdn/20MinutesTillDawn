@@ -10,8 +10,8 @@ import tilldawn.Main;
 public class World {
 
     private final int tileSize = 32;
-    private final int widthInTiles = 100;
-    private final int heightInTiles = 100;
+    private final int widthInTiles = 10000;
+    private final int heightInTiles = 10000;
     private final int worldWidth = widthInTiles * tileSize;
     private final int worldHeight = heightInTiles * tileSize;
     private final Texture baseTileTexture;

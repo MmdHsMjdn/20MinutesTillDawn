@@ -17,7 +17,7 @@ public class PlayerController {
         player.update(delta, position, mouseWorldPosition);
     }
 
-    public void draw() {
-        player.draw(Main.getBatch());
+    public void draw(float delta) {
+        player.draw(Main.getBatch(),delta);
     }
 }

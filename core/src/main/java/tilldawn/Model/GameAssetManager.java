@@ -22,13 +22,17 @@ public class GameAssetManager {
     private Animation<TextureRegion> character9WalkAnimation;
     private Animation<TextureRegion> character10WalkAnimation;
     private Animation<TextureRegion> character11WalkAnimation;
+    private Animation<TextureRegion> damageAnimation;
     private Texture basicTileTexture;
+    private Texture treeTexture;
 
 
 
     public GameAssetManager() {
         createWalkAnimations();
         createBasicTileTexture();
+        createTreeTexture();
+        createDamage();
     }
 
     private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
@@ -162,47 +166,65 @@ public class GameAssetManager {
 
 
 
-         this.character1WalkAnimation = new Animation(0.1f, idle1WalkFrames);
+         this.character1WalkAnimation = new Animation<>(0.1f, idle1WalkFrames);
          character1WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character2WalkAnimation = new Animation(0.1f, idle2WalkFrames);
+         this.character2WalkAnimation = new Animation<>(0.1f, idle2WalkFrames);
          character2WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character3WalkAnimation = new Animation(0.1f, idle3WalkFrames);
+         this.character3WalkAnimation = new Animation<>(0.1f, idle3WalkFrames);
          character3WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character4WalkAnimation = new Animation(0.1f, idle4WalkFrames);
+         this.character4WalkAnimation = new Animation<>(0.1f, idle4WalkFrames);
          character4WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character5WalkAnimation = new Animation(0.1f, idle5WalkFrames);
+         this.character5WalkAnimation = new Animation<>(0.1f, idle5WalkFrames);
          character5WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character6WalkAnimation = new Animation(0.1f, idle6WalkFrames);
+         this.character6WalkAnimation = new Animation<>(0.1f, idle6WalkFrames);
          character6WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character7WalkAnimation = new Animation(0.1f, idle7WalkFrames);
+         this.character7WalkAnimation = new Animation<>(0.1f, idle7WalkFrames);
          character7WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character8WalkAnimation = new Animation(0.1f, idle8WalkFrames);
+         this.character8WalkAnimation = new Animation<>(0.1f, idle8WalkFrames);
          character8WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character9WalkAnimation = new Animation(0.1f, idle9WalkFrames);
+         this.character9WalkAnimation = new Animation<>(0.1f, idle9WalkFrames);
          character9WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character10WalkAnimation = new Animation(0.1f, idle10WalkFrames);
+         this.character10WalkAnimation = new Animation<>(0.1f, idle10WalkFrames);
          character10WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-         this.character11WalkAnimation = new Animation(0.1f, idle11WalkFrames);
+         this.character11WalkAnimation = new Animation<>(0.1f, idle11WalkFrames);
          character11WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
+    }
+
+    private void createDamage() {
+
+        TextureRegion[] frames = new TextureRegion[4];
+        frames[0] = new TextureRegion(new Texture("Sprite/DeathFX/DeathFX_0.png"));
+        frames[1] = new TextureRegion(new Texture("Sprite/DeathFX/DeathFX_1.png"));
+        frames[2] = new TextureRegion(new Texture("Sprite/DeathFX/DeathFX_2.png"));
+        frames[3] = new TextureRegion(new Texture("Sprite/DeathFX/DeathFX_3.png"));
+        this.damageAnimation = new Animation<>(0.1f, frames);
     }
 
     private void createBasicTileTexture() {
         this.basicTileTexture = new Texture("Sprite/background/T_TempleTile_4.png");
     }
 
+    private void createTreeTexture() {
+        this.treeTexture = new Texture("Sprite/T/T_TreeMonster_0.png");
+    }
+
     public Texture getBaseTileTexture() {
         return this.basicTileTexture;
+    }
+
+    public Texture getTreeTexture() {
+        return this.treeTexture;
     }
 
     public Animation<TextureRegion> getCharacter1WalkAnimation() {
@@ -247,5 +269,9 @@ public class GameAssetManager {
 
     public Animation<TextureRegion> getCharacter11WalkAnimation() {
         return character11WalkAnimation;
+    }
+
+    public Animation<TextureRegion> getDamageAnimation() {
+        return damageAnimation;
     }
 }

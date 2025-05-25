@@ -15,6 +15,7 @@ public class GameController {
     private static final float viewHeight = Gdx.graphics.getHeight();
     private WorldController worldController;
     private PlayerController playerController;
+    private TreeController treeController;
 
     public GameController() {
         this.camera = new OrthographicCamera();
@@ -26,6 +27,7 @@ public class GameController {
         this.view = view;
         setWorldController();
         setPlayerController();
+        setTreeController();
 
     }
 
@@ -37,6 +39,11 @@ public class GameController {
         this.playerController = new PlayerController(view.getPlayer());
     }
 
+    private void setTreeController() {
+        this.treeController = new TreeController(view.getTrees());
+        this.treeController.generateInitialTrees();
+    }
+
     public void updateGame(float delta) {
 
         Vector3 mouseWorldPosition = mouseWorldPosition();
@@ -44,13 +51,15 @@ public class GameController {
 
         playerController.update(delta,playerMovement,mouseWorldPosition);
         worldController.update(view.getPlayer().getPosition() , mouseWorldPosition);
+        treeController.updateTrees(camera);
 
     }
 
-    public void draw() {
+    public void draw(float delta) {
 
         worldController.draw();
-       playerController.draw();
+        treeController.draw(camera);
+        playerController.draw(delta);
 
     }
 
@@ -78,4 +87,5 @@ public class GameController {
         camera.unproject(mouseWorldPosition);
         return mouseWorldPosition;
     }
+
 }

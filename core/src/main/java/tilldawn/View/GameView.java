@@ -9,8 +9,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import tilldawn.Controller.GameController;
 import tilldawn.Main;
+import tilldawn.Model.Collidables.Collidable;
+import tilldawn.Model.Collidables.Tree;
 import tilldawn.Model.Player;
 import tilldawn.Model.World;
+
+import java.util.ArrayList;
 
 public class GameView implements Screen, InputProcessor {
 
@@ -18,18 +22,20 @@ public class GameView implements Screen, InputProcessor {
     private final GameController controller;
     private final Player player;
     private final World world;
+    private final ArrayList<Collidable> collidables = new ArrayList<>();
+    private final ArrayList<Tree> trees = new ArrayList<>();
 
     public GameView(int index) {
         this.controller = new GameController();
         this.player = new Player(index);
         this.world = new World();
-        controller.setView(this);
     }
 
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(this);
+        controller.setView(this);
     }
 
     @Override
@@ -37,7 +43,7 @@ public class GameView implements Screen, InputProcessor {
         ScreenUtils.clear(Color.BLACK);
         Main.getBatch().begin();
         controller.updateGame(delta);
-        controller.draw();
+        controller.draw(delta);
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
@@ -121,4 +127,17 @@ public class GameView implements Screen, InputProcessor {
     public World getWorld() {
         return world;
     }
+
+    public GameController getController() {
+        return controller;
+    }
+
+    public ArrayList<Collidable> getCollidables() {
+        return collidables;
+    }
+
+    public ArrayList<Tree> getTrees() {
+        return trees;
+    }
+
 }

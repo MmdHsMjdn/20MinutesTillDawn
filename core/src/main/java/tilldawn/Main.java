@@ -17,6 +17,7 @@ public class Main extends Game {
     private static SpriteBatch batch;
     private static GameAssetManager gameAssetManager;
     private static UserManager userManager;
+    private static GameView currentGameView;
 
     @Override
     public void create() {
@@ -25,7 +26,8 @@ public class Main extends Game {
         gameAssetManager = new GameAssetManager();
         userManager = new UserManager();
         AudioManager.loadAll();
-        getMain().setScreen(new GameView(11));
+        currentGameView = new GameView(1);
+        getMain().setScreen(currentGameView);
     }
 
     @Override
@@ -54,4 +56,11 @@ public class Main extends Game {
         return userManager;
     }
 
+    public static GameView getCurrentGameView() {
+        return currentGameView;
+    }
+
+    public static void setCurrentGameView(GameView currentGameView) {
+        Main.currentGameView = currentGameView;
+    }
 }

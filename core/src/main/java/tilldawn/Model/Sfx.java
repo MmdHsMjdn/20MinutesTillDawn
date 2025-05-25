@@ -10,4 +10,12 @@ public class Sfx {
         AudioManager.playSound("walk2",x);
     }
 
+    public static void playWalk3(float x) {
+        AudioManager.playSound("walk3",x);
+    }
+
+    public static void playDamage(float x) {
+        AudioManager.playSound("damage",x);
+    }
+
 }

@@ -84,9 +84,11 @@ public class AudioManager {
         loadAllSounds();
     }
 
-    public static void loadAllSounds() {
+    private static void loadAllSounds() {
         loadSound("walk1","sfx/st3-footstep-sfx-323056.mp3");
         loadSound("walk2","sfx/regularfootstep002-47146.mp3");
+        loadSound("walk3", "sfx/Footsteps_Casual_Grass_01.wav");
+        loadSound("damage","sfx/Blood_Splash_Quick_01.wav");
     }
 
     public static void loadAllMusics() {
