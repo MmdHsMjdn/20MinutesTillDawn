@@ -20,4 +20,5 @@ public class PlayerController {
     public void draw(float delta) {
         player.draw(Main.getBatch(),delta);
     }
+
 }

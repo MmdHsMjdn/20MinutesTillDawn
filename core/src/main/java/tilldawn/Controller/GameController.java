@@ -16,6 +16,8 @@ public class GameController {
     private WorldController worldController;
     private PlayerController playerController;
     private TreeController treeController;
+    private BulletController bulletController;
+    private WeaponController weaponController;
 
     public GameController() {
         this.camera = new OrthographicCamera();
@@ -28,7 +30,13 @@ public class GameController {
         setWorldController();
         setPlayerController();
         setTreeController();
+        setBulletController();
+        setWeaponController();
 
+    }
+
+    private void setBulletController() {
+        bulletController = new BulletController();
     }
 
     private void setWorldController() {
@@ -44,14 +52,20 @@ public class GameController {
         this.treeController.generateInitialTrees();
     }
 
+    private void setWeaponController() {
+        this.weaponController = new WeaponController();
+    }
+
     public void updateGame(float delta) {
 
         Vector3 mouseWorldPosition = mouseWorldPosition();
         Vector2 playerMovement = playerMovement();
 
+        weaponController.updateWeapon(view.getPlayer(),delta);
         playerController.update(delta,playerMovement,mouseWorldPosition);
         worldController.update(view.getPlayer().getPosition() , mouseWorldPosition);
         treeController.updateTrees(camera);
+        bulletController.update(delta);
 
     }
 
@@ -60,7 +74,8 @@ public class GameController {
         worldController.draw();
         treeController.draw(camera);
         playerController.draw(delta);
-
+        weaponController.draw(view.getPlayer());
+        bulletController.draw();
     }
 
     private Vector2 playerMovement() {

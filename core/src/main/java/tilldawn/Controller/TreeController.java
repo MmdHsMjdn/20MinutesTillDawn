@@ -58,7 +58,7 @@ public class TreeController {
             }
         }
 
-        int targetCount = baseTrees + (int) (screenMargin * 0.02f);
+        int targetCount = baseTrees + (int) (screenMargin * 0.04f);
         int treesToAdd = Math.max(0, targetCount - existingAroundCamera);
 
         for (int i = 0; i < treesToAdd; i++) {

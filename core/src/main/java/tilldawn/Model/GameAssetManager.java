@@ -25,7 +25,10 @@ public class GameAssetManager {
     private Animation<TextureRegion> damageAnimation;
     private Texture basicTileTexture;
     private Texture treeTexture;
-
+    private Texture smgTexture;
+    private Texture revolverTexture;
+    private Texture shotgunTexture;
+    private Texture bulletTexture;
 
 
     public GameAssetManager() {
@@ -33,6 +36,8 @@ public class GameAssetManager {
         createBasicTileTexture();
         createTreeTexture();
         createDamage();
+        createWeapons();
+        createBullet();
     }
 
     private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
@@ -219,12 +224,38 @@ public class GameAssetManager {
         this.treeTexture = new Texture("Sprite/T/T_TreeMonster_0.png");
     }
 
+    private void createBullet() {
+        this.bulletTexture = new Texture("Sprite/Bullet/bullet.png");
+    }
+
+    private void createWeapons() {
+        this.smgTexture = new Texture("Sprite/T/T_DualSMGs_Icon.png");
+        this.shotgunTexture = new Texture("Sprite/T/T_Shotgun_SS_0.png");
+        this.revolverTexture = new Texture("Sprite/RevolverStill/RevolverStill.png");
+    }
+
     public Texture getBaseTileTexture() {
         return this.basicTileTexture;
     }
 
     public Texture getTreeTexture() {
         return this.treeTexture;
+    }
+
+    public Texture getSmgTexture() {
+        return this.smgTexture;
+    }
+
+    public Texture getRevolverTexture() {
+        return this.revolverTexture;
+    }
+
+    public Texture getShotgunTexture() {
+        return this.shotgunTexture;
+    }
+
+    public Texture getBulletTexture() {
+        return this.bulletTexture;
     }
 
     public Animation<TextureRegion> getCharacter1WalkAnimation() {

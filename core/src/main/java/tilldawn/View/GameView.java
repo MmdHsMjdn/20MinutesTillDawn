@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import tilldawn.Controller.GameController;
 import tilldawn.Main;
+import tilldawn.Model.Collidables.Bullet;
 import tilldawn.Model.Collidables.Collidable;
 import tilldawn.Model.Collidables.Tree;
 import tilldawn.Model.Player;
@@ -24,6 +25,7 @@ public class GameView implements Screen, InputProcessor {
     private final World world;
     private final ArrayList<Collidable> collidables = new ArrayList<>();
     private final ArrayList<Tree> trees = new ArrayList<>();
+    private final ArrayList<Bullet> bullets = new ArrayList<>();
 
     public GameView(int index) {
         this.controller = new GameController();
@@ -138,6 +140,10 @@ public class GameView implements Screen, InputProcessor {
 
     public ArrayList<Tree> getTrees() {
         return trees;
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
     }
 
 }

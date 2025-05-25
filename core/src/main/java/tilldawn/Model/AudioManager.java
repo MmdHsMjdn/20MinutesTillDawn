@@ -89,6 +89,14 @@ public class AudioManager {
         loadSound("walk2","sfx/regularfootstep002-47146.mp3");
         loadSound("walk3", "sfx/Footsteps_Casual_Grass_01.wav");
         loadSound("damage","sfx/Blood_Splash_Quick_01.wav");
+        loadSound("shotgunReload","sfx/Weapon_Shotgun_Reload.wav");
+        loadSound("revolverReload","sfx/revolver-chamber-spin-ratchet-sound-90521.mp3");
+        loadSound("smgReload","sfx/machine-gun-reload-81593.mp3");
+        loadSound("emptyAmmo" , "sfx/empty-gun-shot-6209.mp3");
+        loadSound("revolverShot","sfx/desert-eagle-gunshot-14622.mp3");
+        loadSound("smgShot","sfx/fnp90-burst-100583.mp3");
+        loadSound("shotgunShot","sfx/gun-shot-1-7069.mp3");
+
     }
 
     public static void loadAllMusics() {

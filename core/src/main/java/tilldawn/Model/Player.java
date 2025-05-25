@@ -10,7 +10,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import tilldawn.Main;
+import tilldawn.Model.Collidables.Bullet;
 import tilldawn.Model.Collidables.Collidable;
+import tilldawn.Model.Weapons.Revolver;
+import tilldawn.Model.Weapons.Weapon;
 
 public class Player {
     private final int characterIndex;
@@ -33,6 +36,7 @@ public class Player {
     private Vector2 damagePosition = new Vector2();
     private final float damageCooldown = 0.5f;
     private float timeSinceLastDamage = damageCooldown;
+    private Weapon defaultWeapon = new Revolver(false);
 
     public Player(int characterIndex) {
         this.characterIndex = characterIndex;
@@ -135,6 +139,13 @@ public class Player {
                     collisionRect.height
                 );
                 if (testRect.overlaps(c.getCollisionRect())) {
+
+                    if (c instanceof Bullet) {
+                        if (!((Bullet) c).isShotByEnemy()) {
+                            continue;
+                        }
+                    }
+
                     c.onPlayerCollision(this);
                     collided = true;
                     break;
@@ -221,6 +232,26 @@ public class Player {
             Sfx.playDamage(1);
             timeSinceLastDamage = 0.0f;
         }
+    }
+
+    public void shoot() {
+        defaultWeapon.shoot(position.cpy(),playerSprite.getRotation(),false);
+    }
+
+    public void reload() {
+        defaultWeapon.startReloading();
+    }
+
+    public Weapon getDefaultWeapon() {
+        return defaultWeapon;
+    }
+
+    public void setDefaultWeapon(Weapon defaultWeapon) {
+        this.defaultWeapon = defaultWeapon;
+    }
+
+    public void setAutoReload() {
+        defaultWeapon.setAutoReload(!defaultWeapon.isAutoReload());
     }
 
     public int getCharacterIndex() { return characterIndex; }
