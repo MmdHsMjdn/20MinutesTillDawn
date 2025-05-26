@@ -46,4 +46,12 @@ public class Sfx {
         AudioManager.playSound("shotgunReload", x);
     }
 
+    public static void eyebatDeath(float x) {
+        AudioManager.playSound("eyebatDeath", x);
+    }
+
+    public static void monsterDeath(float x) {
+        AudioManager.playSound("monsterDeath", x);
+    }
+
 }

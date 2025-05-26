@@ -11,6 +11,7 @@ import tilldawn.Controller.GameController;
 import tilldawn.Main;
 import tilldawn.Model.Collidables.Bullet;
 import tilldawn.Model.Collidables.Collidable;
+import tilldawn.Model.Collidables.Enemy.Enemy;
 import tilldawn.Model.Collidables.Tree;
 import tilldawn.Model.Player;
 import tilldawn.Model.World;
@@ -26,11 +27,15 @@ public class GameView implements Screen, InputProcessor {
     private final ArrayList<Collidable> collidables = new ArrayList<>();
     private final ArrayList<Tree> trees = new ArrayList<>();
     private final ArrayList<Bullet> bullets = new ArrayList<>();
+    private final ArrayList<Enemy> enemies = new ArrayList<>();
+    private final int totalMinutes;
+    private float passedTime = 0.0f;
 
-    public GameView(int index) {
+    public GameView(int index, int totalMinutes) {
         this.controller = new GameController();
         this.player = new Player(index);
         this.world = new World();
+        this.totalMinutes = totalMinutes;
     }
 
     @Override
@@ -146,4 +151,19 @@ public class GameView implements Screen, InputProcessor {
         return bullets;
     }
 
+    public ArrayList<Enemy> enemies() {
+        return enemies;
+    }
+
+    public float getPassedTime() {
+        return passedTime;
+    }
+
+    public int getTotalMinutes() {
+        return totalMinutes;
+    }
+
+    public void addToPassedTime(float time) {
+        passedTime += time;
+    }
 }

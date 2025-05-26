@@ -26,7 +26,7 @@ public class Main extends Game {
         gameAssetManager = new GameAssetManager();
         userManager = new UserManager();
         AudioManager.loadAll();
-        currentGameView = new GameView(1);
+        currentGameView = new GameView(10,2);
         getMain().setScreen(currentGameView);
     }
 

@@ -96,6 +96,8 @@ public class AudioManager {
         loadSound("revolverShot","sfx/desert-eagle-gunshot-14622.mp3");
         loadSound("smgShot","sfx/fnp90-burst-100583.mp3");
         loadSound("shotgunShot","sfx/gun-shot-1-7069.mp3");
+        loadSound("eyebatDeath","sfx/Bat_Death_02.wav");
+        loadSound("monsterDeath","sfx/Explosion_Blood_01.wav");
 
     }
 

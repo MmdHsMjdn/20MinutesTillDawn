@@ -56,7 +56,7 @@ public class WeaponController {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-            player.getDefaultWeapon().startReloading();
+            player.reload();
         }
 
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {

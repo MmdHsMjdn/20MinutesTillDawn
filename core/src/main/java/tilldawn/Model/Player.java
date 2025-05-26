@@ -16,6 +16,7 @@ import tilldawn.Model.Weapons.Revolver;
 import tilldawn.Model.Weapons.Weapon;
 
 public class Player {
+
     private final int characterIndex;
     private Texture playerTexture;
     private Animation<TextureRegion> walkAnimation;
@@ -25,7 +26,7 @@ public class Player {
     private Vector2 position = new Vector2();
     private float angle;
     private float health = 100;
-    private static final float MAX_HEALTH = 100;
+    private static final float maxHealth = 100;
     private final Rectangle collisionRect;
     private float soundStepTimer = 0.0f;
     private float speed = 300;
@@ -132,12 +133,14 @@ public class Player {
 
             boolean collided = false;
             for (Collidable c : Main.getCurrentGameView().getCollidables()) {
+
                 Rectangle testRect = new Rectangle(
                     newPosition.x - collisionRect.width/2,
                     newPosition.y - collisionRect.height/2,
                     collisionRect.width,
                     collisionRect.height
                 );
+
                 if (testRect.overlaps(c.getCollisionRect())) {
 
                     if (c instanceof Bullet) {
@@ -264,7 +267,7 @@ public class Player {
     public float getStateTimeForPlayerMove() { return stateTimeForPlayerMove; }
     public boolean isMoving() { return isMoving; }
     public void setPosition(Vector2 position) { this.position = position; }
-    public void setHealth(float health) { this.health = Math.min(MAX_HEALTH, health); }
+    public void setHealth(float health) { this.health = Math.min(maxHealth, health); }
     public void setSpeed(float speed) { this.speed = speed; }
     public void setStateTimeForPlayerMove(float stateTime) { this.stateTimeForPlayerMove = stateTime; }
 }
