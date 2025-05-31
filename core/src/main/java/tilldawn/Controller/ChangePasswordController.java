@@ -2,6 +2,7 @@ package tilldawn.Controller;
 
 import tilldawn.Main;
 import tilldawn.Model.Result;
+import tilldawn.Model.Sfx;
 import tilldawn.View.ChangePasswordView;
 import tilldawn.View.ProfileMenuView;
 
@@ -20,13 +21,14 @@ public class ChangePasswordController {
         }
 
         if (view.getBackButton().isChecked()) {
+            Sfx.click(1);
             view.getBackButton().setChecked(false);
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new ProfileMenuView());
         }
 
         if (view.getChangePasswordButton().isChecked()) {
-
+            Sfx.click(1);
             view.getChangePasswordButton().setChecked(false);
 
             if (view.isNewPasswordEmpty()) {

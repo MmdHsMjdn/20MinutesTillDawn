@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import tilldawn.Main;
+import tilldawn.Model.Collidables.Bullet;
 import tilldawn.Model.Player;
 
 public class Eyebat extends Enemy {
 
-    private final int damage = 1; // edit damage
+    private final int damage = 5;
     private static float spawnTimer = 0.0f;
+    private float shotTimer = 0.0f;
 
     public Eyebat(Vector2 position) {
         super(position , 50);
@@ -44,7 +46,7 @@ public class Eyebat extends Enemy {
 
     for (int i = 0; i < (4*Main.getCurrentGameView().getPassedTime() - Main.getCurrentGameView().getTotalMinutes()*60 + 30)/30 ; i++) {
 
-        Vector2 position = Enemy.randomValidPosition(800,2000);
+        Vector2 position = Enemy.randomValidPosition(800,1000);
         if (position != null) {
             Eyebat eyebat = new Eyebat(position);
             Main.getCurrentGameView().enemies().add(eyebat);
@@ -54,6 +56,33 @@ public class Eyebat extends Enemy {
     }
 
 
+    }
+
+    @Override
+    public void update(float delta, Vector2 playerPosition) {
+
+        this.direction.set(playerPosition).sub(position);
+        if (!direction.isZero()) {
+            direction.nor();
+        }
+
+        updateMovement(delta, direction.cpy());
+        updateAnimation(delta);
+        updateSprite();
+        updateCollisionRect();
+        this.knockDown = false;
+
+        shotTimer += delta;
+        if (shotTimer >= 3f) {
+            shotTimer = 0.0f;
+            shoot();
+        }
+    }
+
+    private void shoot() {
+        Bullet b = new Bullet(this.position.cpy(),this.enemySprite.getRotation(),true,10);
+        Main.getCurrentGameView().getBullets().add(b);
+        Main.getCurrentGameView().getCollidables().add(b);
     }
 
     @Override

@@ -9,7 +9,7 @@ import tilldawn.Model.Player;
 
 public class TentacleMonster extends Enemy {
 
-    private final int damage = 1;//edit damage
+    private final int damage = 10;
     private static float spawnTimer = 0.0f;
 
     public TentacleMonster(Vector2 position) {

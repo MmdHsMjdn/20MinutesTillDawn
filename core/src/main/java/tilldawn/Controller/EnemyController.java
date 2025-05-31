@@ -6,6 +6,9 @@ import tilldawn.Main;
 import tilldawn.Model.Collidables.Enemy.Enemy;
 import tilldawn.Model.Collidables.Enemy.Eyebat;
 import tilldawn.Model.Collidables.Enemy.TentacleMonster;
+import tilldawn.Model.DefaultKeys.DefaultsKeys;
+import tilldawn.Model.DefaultKeys.InputManager;
+import tilldawn.Model.Drop;
 import tilldawn.Model.Sfx;
 
 import java.util.ArrayList;
@@ -21,6 +24,10 @@ public class EnemyController {
     private float monsterDeathTimer = 0.0f;
 
     public void draw(float delta) {
+
+        for (Drop drop : Main.getCurrentGameView().getDrops()) {
+            drop.draw();
+        }
 
         for (Enemy enemy : Main.getCurrentGameView().enemies()) {
             enemy.draw();
@@ -66,7 +73,9 @@ public class EnemyController {
 
             if (enemy.isDead()) {
 
+                Main.getCurrentGameView().getPlayer().increaseKillsNumber();
                 deathPoints.add(enemy.getPosition().cpy());
+                Main.getCurrentGameView().getDrops().add(new Drop(enemy.getPosition().cpy()));
 
                 if (enemy instanceof Eyebat) {
                     containEyebat = true;
@@ -80,6 +89,13 @@ public class EnemyController {
             }
 
             enemy.update(delta,Main.getCurrentGameView().getPlayer().getPosition().cpy());
+
+            if (InputManager.isKeyJustPressed(DefaultsKeys.EnemiesGoAway) || InputManager.isKeyPressed(DefaultsKeys.EnemiesGoAway)) {
+                for (Enemy e : Main.getCurrentGameView().enemies()) {
+                    e.applyKnockDown();
+                }
+            }
+
         }
 
     }

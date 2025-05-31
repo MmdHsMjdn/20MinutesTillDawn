@@ -24,7 +24,7 @@ public class Shotgun extends Weapon{
 
         for (int i=0 ; i<projectTile; ++i) {
 
-            float spread = MathUtils.random(-15f,15f);
+            float spread = MathUtils.random(-5f,5f);
 
             Bullet b = new Bullet(position.cpy(),angle + spread,shotByEnemy,10);
             Main.getCurrentGameView().getBullets().add(b);

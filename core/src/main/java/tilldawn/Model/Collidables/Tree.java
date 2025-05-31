@@ -12,7 +12,7 @@ public class Tree implements Collidable {
     private final Vector2 position;
     private final Texture treeTexture;
     private final Rectangle collisionRect;
-    private final int damage = 1; // change damage
+    private final int damage = 5;
     private static final int width = 70;
     private static final int height = 92;
 

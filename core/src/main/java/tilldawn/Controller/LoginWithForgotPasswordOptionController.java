@@ -2,6 +2,7 @@ package tilldawn.Controller;
 
 import tilldawn.Main;
 import tilldawn.Model.Result;
+import tilldawn.Model.Sfx;
 import tilldawn.Model.ValidationRegexes;
 import tilldawn.View.LoginWithForgotPasswordOptionMenuView;
 import tilldawn.View.LoginWithPasswordMenuView;
@@ -19,6 +20,9 @@ public class LoginWithForgotPasswordOptionController {
         if (view != null) {
 
             if (view.getChangePasswordButton().isChecked()) {
+
+                Sfx.click(1);
+
                 if (view.isUsernameEmpty() || view.isSecurityQuestionEmpty() || view.isNewPasswordEmpty()) {
                     view.getChangePasswordButton().setChecked(false);
                     return;

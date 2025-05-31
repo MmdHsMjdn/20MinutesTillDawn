@@ -140,4 +140,8 @@ public class UserManager {
         return null;
 
     }
+
+    public void saveUsers() {
+        json.toJson(users, file);
+    }
 }

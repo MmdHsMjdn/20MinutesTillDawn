@@ -3,6 +3,7 @@ package tilldawn.Model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import tilldawn.Main;
 
 import java.util.HashMap;
 
@@ -25,13 +26,26 @@ public class AudioManager {
         musicMap.put(name, music);
     }
 
-    public static void playSound(String name) {
-        playSound(name, 1.0f);
-    }
 
     public static void playSound(String name, float volume) {
+
+        if (!Main.getMain().isSFXOn()) {
+            return;
+        }
+
         if (soundEnabled && soundMap.containsKey(name)) {
             soundMap.get(name).play(volume);
+        }
+
+    }
+
+    public static void changeMusic() {
+        if (musicMap.get("championsLeague").isPlaying()) {
+            musicMap.get("championsLeague").stop();
+            playMusic("caribbean");
+        } else {
+            musicMap.get("caribbean").stop();
+            playMusic("championsLeague");
         }
     }
 
@@ -70,6 +84,15 @@ public class AudioManager {
         }
     }
 
+    public static float getMusicVolume() {
+        for (Music music : musicMap.values()) {
+            if (music.isPlaying()) {
+                return music.getVolume();
+            }
+        }
+        return 0;
+    }
+
     public static void dispose() {
         for (Sound s : soundMap.values()) {
             s.dispose();
@@ -94,14 +117,18 @@ public class AudioManager {
         loadSound("smgReload","sfx/machine-gun-reload-81593.mp3");
         loadSound("emptyAmmo" , "sfx/empty-gun-shot-6209.mp3");
         loadSound("revolverShot","sfx/desert-eagle-gunshot-14622.mp3");
-        loadSound("smgShot","sfx/fnp90-burst-100583.mp3");
+        loadSound("smgShot","sfx/toy-pistol-82582.mp3");
         loadSound("shotgunShot","sfx/gun-shot-1-7069.mp3");
         loadSound("eyebatDeath","sfx/Bat_Death_02.wav");
         loadSound("monsterDeath","sfx/Explosion_Blood_01.wav");
+        loadSound("click","sfx/UI Click 36.wav");
+        loadSound("obtainDrop","sfx/Obtain_Points_01.wav");
+        loadSound("xpLevelUp","sfx/Buff_Power_Up_01.wav");
 
     }
 
     public static void loadAllMusics() {
-
+        loadMusic("championsLeague","musics/_- Champions League (128).mp3",true);
+        loadMusic("caribbean","musics/pirate-of-caribbean.mp3",true);
     }
 }

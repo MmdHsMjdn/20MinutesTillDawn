@@ -1,8 +1,8 @@
 package tilldawn.Controller;
 
-import com.badlogic.gdx.Gdx;
 import tilldawn.Main;
 import tilldawn.Model.Result;
+import tilldawn.Model.Sfx;
 import tilldawn.View.LoginWithPasswordMenuView;
 import tilldawn.View.SignUpMenuView;
 
@@ -18,6 +18,8 @@ public class SignUpMenuController {
         if (view != null) {
 
             if (view.getSignUpButton().isChecked()) {
+
+                Sfx.click(1);
 
                 if (view.isPasswordEmpty() || view.isUsernameEmpty() || view.isSecurityQuestionEmpty()) {
                     view.getSignUpButton().setChecked(false);
@@ -39,6 +41,9 @@ public class SignUpMenuController {
             } else {
 
                 if (view.getLoginButton().isChecked()) {
+
+                    Sfx.click(1);
+
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new LoginWithPasswordMenuView());
                 }

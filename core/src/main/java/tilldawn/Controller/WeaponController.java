@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import tilldawn.Main;
+import tilldawn.Model.DefaultKeys.DefaultsKeys;
+import tilldawn.Model.DefaultKeys.InputManager;
 import tilldawn.Model.Player;
 import tilldawn.Model.Weapons.Revolver;
 import tilldawn.Model.Weapons.Shotgun;
@@ -32,11 +34,17 @@ public class WeaponController {
             player.getPlayerSprite().getRotation());
     }
 
+    public void autoAimUpdate() {
+        if (InputManager.isKeyJustPressed(DefaultsKeys.AutoAim)) {
+            Main.getCurrentGameView().changeAutoAim();
+        }
+    }
+
     public void updateWeapon(Player player, float delta) {
 
         player.getDefaultWeapon().update(delta);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+        if (InputManager.isKeyJustPressed(DefaultsKeys.ChangeWeapon)) {
 
             boolean autoReload = player.getDefaultWeapon().isAutoReload();
 
@@ -51,19 +59,19 @@ public class WeaponController {
             return;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+        if (InputManager.isKeyJustPressed(DefaultsKeys.AutoReload)) {
             player.setAutoReload();
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+        if (InputManager.isKeyPressed(DefaultsKeys.Reload)) {
             player.reload();
         }
 
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+        if (InputManager.isKeyJustPressed(DefaultsKeys.Shoot)) {
             player.shoot();
         }
 
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && player.getDefaultWeapon() instanceof Smg) {
+        if (InputManager.isKeyPressed(DefaultsKeys.Shoot) && player.getDefaultWeapon() instanceof Smg) {
             player.shoot();
         }
 

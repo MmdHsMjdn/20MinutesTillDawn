@@ -3,6 +3,7 @@ package tilldawn.Controller;
 import com.badlogic.gdx.Gdx;
 import tilldawn.Main;
 import tilldawn.Model.Result;
+import tilldawn.Model.Sfx;
 import tilldawn.Model.User;
 import tilldawn.View.LoginWithForgotPasswordOptionMenuView;
 import tilldawn.View.LoginWithPasswordMenuView;
@@ -22,6 +23,8 @@ public class LoginWithPasswordController {
 
             if (view.getLoginButton().isChecked()) {
 
+                Sfx.click(1);
+
                 if (view.isUsernameEmpty() || view.isPasswordEmpty()) {
                     view.getLoginButton().setChecked(false);
                     return;
@@ -37,11 +40,17 @@ public class LoginWithPasswordController {
                     }
                 });
             } else if (view.getForgetPasswordButton().isChecked()) {
+
+                Sfx.click(1);
+
                 view.getForgetPasswordButton().setChecked(false);
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new LoginWithForgotPasswordOptionMenuView());
 
             } else if (view.getLoginAsGuestButton().isChecked()) {
+
+                Sfx.click(1);
+
                 view.getLoginAsGuestButton().setChecked(false);
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new MainMenuView());

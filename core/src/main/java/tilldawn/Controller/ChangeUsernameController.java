@@ -2,6 +2,7 @@ package tilldawn.Controller;
 
 import tilldawn.Main;
 import tilldawn.Model.Result;
+import tilldawn.Model.Sfx;
 import tilldawn.View.ChangeUsernameView;
 import tilldawn.View.ProfileMenuView;
 
@@ -20,13 +21,14 @@ public class ChangeUsernameController {
         }
 
         if (view.getBackButton().isChecked()) {
+            Sfx.click(1);
             view.getBackButton().setChecked(false);
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new ProfileMenuView());
         }
 
         if (view.getChangeUsernameButton().isChecked()) {
-
+            Sfx.click(1);
             view.getChangeUsernameButton().setChecked(false);
 
             if (view.isNewUsernameFieldEmpty()) {

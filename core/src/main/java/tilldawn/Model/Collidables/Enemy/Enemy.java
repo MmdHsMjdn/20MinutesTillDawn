@@ -19,12 +19,12 @@ public abstract class Enemy implements Collidable {
     protected Sprite enemySprite;
     protected Vector2 position = new Vector2();
     protected float stateTime = 0.0f;
-    protected final float speed = 100;
+    protected final float speed = 60;
     protected Vector2 direction = new Vector2();
     protected float HP;
     protected float maxHP;
     protected Rectangle collisionRect;
-    private boolean knockDown = false;
+    protected boolean knockDown = false;
     protected boolean isDead = false;
 
     public Enemy(Vector2 position, float maxHP) {
@@ -51,15 +51,25 @@ public abstract class Enemy implements Collidable {
 
     protected void updateMovement(float delta, Vector2 direction) {
 
-        int ratio = knockDown ? -1 : 1;
-        Vector2 movement = direction.cpy().scl(speed * delta * ratio);
+
+        Vector2 movement = new Vector2();
+
+        if (knockDown) {
+            movement.set(direction.cpy().scl(-speed/5));
+        } else {
+            movement.set(direction.cpy().scl(speed * delta));
+        }
         Vector2 newPosition = new Vector2(position).add(movement);
 
-        boolean collided = this.collisionRect.overlaps(Main.getCurrentGameView().getPlayer().getCollisionRect());
+        boolean collided = false;
+        if (this.collisionRect.overlaps(Main.getCurrentGameView().getPlayer().getCollisionRect())) {
+            collided = true;
+            this.onPlayerCollision(Main.getCurrentGameView().getPlayer());
+        }
 
         for (Collidable c : Main.getCurrentGameView().getCollidables()) {
 
-            if (c.equals(this)) {
+            if (c instanceof Enemy) {
                 continue;
             }
 

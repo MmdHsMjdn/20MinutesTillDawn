@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import tilldawn.Main;
+import tilldawn.Model.Collidables.Enemy.Enemy;
 import tilldawn.Model.Player;
 
 public class Bullet implements Collidable {
@@ -12,13 +13,13 @@ public class Bullet implements Collidable {
     private final Vector2 position;
     private final Vector2 velocity;
     private final float speed = 1200f;
-    private final int damage; //change damage
+    private final int damage;
     private boolean destroyed = false;
     private final boolean shotByEnemy;
     private final Rectangle collisionRect;
     private final float width = 40 , height = 40;
     private float lifeTime = 0.0f;
-    private final float maxLifeTime = 2f;
+    private float maxLifeTime = 3f;
 
 
     public Bullet(Vector2 startPosition, float angelDeg , boolean shotByEnemy , int damage) {
@@ -28,6 +29,9 @@ public class Bullet implements Collidable {
         this.shotByEnemy = shotByEnemy;
         this.collisionRect = new Rectangle(position.x, position.y, width, height);
         this.damage = damage;
+        if (isShotByEnemy()) {
+            this.maxLifeTime = 1f;
+        }
     }
 
     public void update(float delta) {
@@ -44,11 +48,17 @@ public class Bullet implements Collidable {
         }
 
         for (Collidable collidable : Main.getCurrentGameView().getCollidables()) {
+
             if (collidable instanceof Bullet) {
                 if (((Bullet) collidable).shotByEnemy == this.shotByEnemy) {
                     continue;
                 }
             }
+
+            if (collidable instanceof Enemy && shotByEnemy) {
+                continue;
+            }
+
             if (this.collisionRect.overlaps(collidable.getCollisionRect())) {
                 destroyed = true;
             }
@@ -69,6 +79,10 @@ public class Bullet implements Collidable {
     public void onPlayerCollision(Player player) {
         player.applyDamage(this.damage);
         player.triggerDamageAnimation(this.collisionRect , player.getCollisionRect());
+    }
+
+    public void onEnemyCollision(Enemy enemy) {
+        enemy.decreaseHP(this.damage);
     }
 
     public boolean isShotByEnemy() {

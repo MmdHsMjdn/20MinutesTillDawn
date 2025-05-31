@@ -16,12 +16,6 @@ public class GameAssetManager {
     private Animation<TextureRegion> character3WalkAnimation;
     private Animation<TextureRegion> character4WalkAnimation;
     private Animation<TextureRegion> character5WalkAnimation;
-    private Animation<TextureRegion> character6WalkAnimation;
-    private Animation<TextureRegion> character7WalkAnimation;
-    private Animation<TextureRegion> character8WalkAnimation;
-    private Animation<TextureRegion> character9WalkAnimation;
-    private Animation<TextureRegion> character10WalkAnimation;
-    private Animation<TextureRegion> character11WalkAnimation;
     private Animation<TextureRegion> damageAnimation;
     private Animation<TextureRegion> deathAnimation;
     private Animation<TextureRegion> eyebatMoveAnimation;
@@ -32,24 +26,40 @@ public class GameAssetManager {
     private Texture revolverTexture;
     private Texture shotgunTexture;
     private Texture bulletTexture;
-
+    private Texture dropTexture;
+    private Texture heartTexture;
+    private Skin skin;
 
     public GameAssetManager() {
+        setSkin();
         createWalkAnimations();
         createBasicTileTexture();
         createTreeTexture();
         createDamage();
         createWeapons();
         createBullet();
+        createDrop();
         createDeath();
         createEyebatMove();
         createTentacleMove();
+        createHeart();
     }
 
-    private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+    private void setSkin() {
+        this.skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+    }
 
     public Skin getSkin() {
         return skin;
+    }
+
+
+    private void createHeart() {
+        this.heartTexture = new Texture("Sprite/HeartAnimation/HeartAnimation_0.png");
+    }
+
+    private void createDrop() {
+        this.dropTexture = new Texture("Sprite/enemyDrop/drop.png");
     }
 
     private void createWalkAnimations() {
@@ -109,72 +119,6 @@ public class GameAssetManager {
 
         TextureRegion[] idle5WalkFrames = idle5WalkFramesList.toArray(new TextureRegion[0]);
 
-        ArrayList<TextureRegion> idle6WalkFramesList = new ArrayList<>(Arrays.asList(
-            new TextureRegion(new Texture("Sprite/Idle/char6/Idle_06.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char6/Idle_16.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char6/Idle_26.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char6/Idle_36.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char6/Idle_46.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char6/Idle_56.png"))
-        ));
-
-        TextureRegion[] idle6WalkFrames = idle6WalkFramesList.toArray(new TextureRegion[0]);
-
-        ArrayList<TextureRegion> idle7WalkFramesList = new ArrayList<>(Arrays.asList(
-            new TextureRegion(new Texture("Sprite/Idle/char7/Idle_07.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char7/Idle_17.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char7/Idle_27.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char7/Idle_37.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char7/Idle_47.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char7/Idle_57.png"))
-        ));
-
-        TextureRegion[] idle7WalkFrames = idle7WalkFramesList.toArray(new TextureRegion[0]);
-
-        ArrayList<TextureRegion> idle8WalkFramesList = new ArrayList<>(Arrays.asList(
-            new TextureRegion(new Texture("Sprite/Idle/char8/Idle_08.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char8/Idle_18.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char8/Idle_28.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char8/Idle_38.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char8/Idle_48.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char8/Idle_58.png"))
-        ));
-
-        TextureRegion[] idle8WalkFrames = idle8WalkFramesList.toArray(new TextureRegion[0]);
-
-        ArrayList<TextureRegion> idle9WalkFramesList = new ArrayList<>(Arrays.asList(
-            new TextureRegion(new Texture("Sprite/Idle/char9/Idle_09.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char9/Idle_19.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char9/Idle_29.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char9/Idle_39.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char9/Idle_49.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char9/Idle_59.png"))
-        ));
-
-        TextureRegion[] idle9WalkFrames = idle9WalkFramesList.toArray(new TextureRegion[0]);
-
-        ArrayList<TextureRegion> idle10WalkFramesList = new ArrayList<>(Arrays.asList(
-            new TextureRegion(new Texture("Sprite/Idle/char10/Idle_010.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char10/Idle_110.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char10/Idle_210.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char10/Idle_310.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char10/Idle_410.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char10/Idle_510.png"))
-        ));
-
-        TextureRegion[] idle10WalkFrames = idle10WalkFramesList.toArray(new TextureRegion[0]);
-
-        ArrayList<TextureRegion> idle11WalkFramesList = new ArrayList<>(Arrays.asList(
-            new TextureRegion(new Texture("Sprite/Idle/char11/Idle_011.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char11/Idle_111.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char11/Idle_211.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char11/Idle_311.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char11/Idle_411.png")),
-            new TextureRegion(new Texture("Sprite/Idle/char11/Idle_511.png"))
-        ));
-
-        TextureRegion[] idle11WalkFrames = idle11WalkFramesList.toArray(new TextureRegion[0]);
-
 
         this.character1WalkAnimation = new Animation<>(0.1f, idle1WalkFrames);
         character1WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
@@ -190,24 +134,6 @@ public class GameAssetManager {
 
         this.character5WalkAnimation = new Animation<>(0.1f, idle5WalkFrames);
         character5WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
-        this.character6WalkAnimation = new Animation<>(0.1f, idle6WalkFrames);
-        character6WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
-        this.character7WalkAnimation = new Animation<>(0.1f, idle7WalkFrames);
-        character7WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
-        this.character8WalkAnimation = new Animation<>(0.1f, idle8WalkFrames);
-        character8WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
-        this.character9WalkAnimation = new Animation<>(0.1f, idle9WalkFrames);
-        character9WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
-        this.character10WalkAnimation = new Animation<>(0.1f, idle10WalkFrames);
-        character10WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
-        this.character11WalkAnimation = new Animation<>(0.1f, idle11WalkFrames);
-        character11WalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
     }
 
@@ -319,30 +245,6 @@ public class GameAssetManager {
         return character5WalkAnimation;
     }
 
-    public Animation<TextureRegion> getCharacter6WalkAnimation() {
-        return character6WalkAnimation;
-    }
-
-    public Animation<TextureRegion> getCharacter7WalkAnimation() {
-        return character7WalkAnimation;
-    }
-
-    public Animation<TextureRegion> getCharacter8WalkAnimation() {
-        return character8WalkAnimation;
-    }
-
-    public Animation<TextureRegion> getCharacter9WalkAnimation() {
-        return character9WalkAnimation;
-    }
-
-    public Animation<TextureRegion> getCharacter10WalkAnimation() {
-        return character10WalkAnimation;
-    }
-
-    public Animation<TextureRegion> getCharacter11WalkAnimation() {
-        return character11WalkAnimation;
-    }
-
     public Animation<TextureRegion> getDamageAnimation() {
         return damageAnimation;
     }
@@ -354,4 +256,10 @@ public class GameAssetManager {
     public Animation<TextureRegion> getTentacleMoveAnimation() {
         return tentacleMoveAnimation;
     }
+
+    public Texture getDropTexture() {
+        return dropTexture;
+    }
+
+    public Texture getHeartTexture(){return heartTexture;}
 }

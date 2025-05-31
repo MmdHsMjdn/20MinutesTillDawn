@@ -1,6 +1,7 @@
 package tilldawn.Controller;
 
 import tilldawn.Main;
+import tilldawn.Model.Sfx;
 import tilldawn.View.*;
 
 public class ProfileMenuController {
@@ -18,25 +19,25 @@ public class ProfileMenuController {
         }
 
         if (view.getChangeUsername().isChecked()) {
-
+            Sfx.click(1);
             view.getChangeUsername().setChecked(false);
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new ChangeUsernameView());
 
         } else if (view.getChangePassword().isChecked()) {
-
+            Sfx.click(1);
             view.getChangePassword().setChecked(false);
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new ChangePasswordView());
 
         } else if (view.getChangeAvatar().isChecked()) {
-
+            Sfx.click(1);
             view.getChangeAvatar().setChecked(false);
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new ChangeAvatarView());
 
         } else if (view.getDeleteAccount().isChecked()) {
-
+            Sfx.click(1);
             view.getDeleteAccount().setChecked(false);
 
             String username = Main.getMain().getUserManager().getLoggedInUser().getUsername();
@@ -51,7 +52,7 @@ public class ProfileMenuController {
             }
 
         } else if (view.getExit().isChecked()) {
-
+            Sfx.click(1);
             view.getExit().setChecked(false);
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new MainMenuView());

@@ -3,7 +3,9 @@ package tilldawn.View;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -29,25 +31,32 @@ public class MainMenuView implements Screen {
     private final Label messageLabel;
     private final TextField username;
     private final TextField score;
+    private final Image avatarImage;
     private final Table table;
     private final MainMenuController controller;
 
-
     public MainMenuView() {
         this.controller = new MainMenuController();
-        this.label = new Label("Main menu",Main.getMain().getGameAssetManager().getSkin());
+        this.label = new Label("Main menu", Main.getMain().getGameAssetManager().getSkin());
         this.messageLabel = new Label("", Main.getMain().getGameAssetManager().getSkin());
         this.messageLabel.setVisible(false);
 
         User user = Main.getMain().getUserManager().getLoggedInUser();
+        Texture avatarTexture;
 
         if (user != null) {
-            this.username = new TextField( user.getUsername(),Main.getMain().getGameAssetManager().getSkin());
-            this.score = new TextField("Score: " + user.getScore(),Main.getMain().getGameAssetManager().getSkin());
+            this.username = new TextField(user.getUsername(), Main.getMain().getGameAssetManager().getSkin());
+            this.score = new TextField("Score: " + user.getScore(), Main.getMain().getGameAssetManager().getSkin());
+            avatarTexture = user.getAvatar();
         } else {
-            this.username = new TextField("Guest(not logged in)",Main.getMain().getGameAssetManager().getSkin());
-            this.score = new TextField("Score: You should login",Main.getMain().getGameAssetManager().getSkin());
+            this.username = new TextField("Guest(not logged in)", Main.getMain().getGameAssetManager().getSkin());
+            this.score = new TextField("Score: You should login", Main.getMain().getGameAssetManager().getSkin());
+            avatarTexture = new Texture(1, 1, com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888);
+            avatarTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
+
+        this.avatarImage = new Image(avatarTexture != null ? avatarTexture : new Texture(Gdx.files.internal("default_avatar.png")));
+        this.avatarImage.setSize(80, 80);
 
         this.settingButton = new TextButton("Setting", Main.getMain().getGameAssetManager().getSkin());
         this.profileButton = new TextButton("Profile menu", Main.getMain().getGameAssetManager().getSkin());
@@ -58,9 +67,7 @@ public class MainMenuView implements Screen {
         this.logoutButton = new TextButton("Logout", Main.getMain().getGameAssetManager().getSkin());
         this.table = new Table();
         controller.setView(this);
-
     }
-
 
     @Override
     public void show() {
@@ -70,13 +77,18 @@ public class MainMenuView implements Screen {
         table.setFillParent(true);
         table.center().top();
 
-        table.add(label).colspan(2).padTop(40).padBottom(60);
+        table.add(label).colspan(3).padTop(40).padBottom(60);
         table.row();
 
         Table infoTable = new Table();
-        infoTable.add(username).width(400).left().expandX().padRight(10);
-        infoTable.add(score).width(400).right().expandX().padLeft(10);
-        table.add(infoTable).colspan(2).width(1000).padBottom(80);
+        infoTable.defaults().space(20);
+
+
+        infoTable.add(username).width(350).left().padRight(10);
+        infoTable.add(avatarImage).size(80, 80).center();
+        infoTable.add(score).width(350).right().padLeft(10);
+
+        table.add(infoTable).colspan(3).width(1000).padBottom(80);
         table.row();
 
         Table buttonsTable = new Table();
@@ -93,13 +105,12 @@ public class MainMenuView implements Screen {
         buttonsTable.add(resumeSavedGameButton).padRight(50);
         buttonsTable.add(hintMenuButton).padLeft(50);
 
-        table.add(buttonsTable).colspan(2).padBottom(100);
+        table.add(buttonsTable).colspan(3).padBottom(100);
         table.row();
 
-        table.add(logoutButton).colspan(2).width(400).padTop(50);
+        table.add(logoutButton).colspan(3).width(400).padTop(50);
 
         stage.addActor(table);
-
         stage.addActor(messageLabel);
     }
 
@@ -114,29 +125,19 @@ public class MainMenuView implements Screen {
     }
 
     @Override
-    public void resize(int i, int i1) {
-
-    }
+    public void resize(int i, int i1) {}
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 
     public TextButton getSettingButton() {
         return settingButton;
@@ -166,11 +167,11 @@ public class MainMenuView implements Screen {
         return logoutButton;
     }
 
-    public void showTemporaryMessage(String message , Runnable action) {
+    public void showTemporaryMessage(String message, Runnable action) {
         table.setVisible(false);
         messageLabel.setText(message);
         messageLabel.setVisible(true);
-        messageLabel.setPosition(((float) Gdx.graphics.getWidth() - message.length()*10 )/ 2 , (float) Gdx.graphics.getHeight() / 2);
+        messageLabel.setPosition(((float) Gdx.graphics.getWidth() - message.length()*10 )/ 2, (float) Gdx.graphics.getHeight() / 2);
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -181,7 +182,6 @@ public class MainMenuView implements Screen {
                     action.run();
                 }
             }
-
-        } , 3);
+        }, 3);
     }
 }

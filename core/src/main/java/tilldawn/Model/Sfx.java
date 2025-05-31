@@ -54,4 +54,17 @@ public class Sfx {
         AudioManager.playSound("monsterDeath", x);
     }
 
+    public static void click(float x) {
+        AudioManager.playSound("click", x);
+    }
+
+    public static void obtainDrop(float x) {
+        AudioManager.playSound("obtainDrop", x);
+    }
+
+    public static void xpLevelUp(float x) {
+        AudioManager.playSound("xpLevelUp", x);
+    }
+
+
 }
