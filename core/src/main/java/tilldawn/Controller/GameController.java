@@ -122,7 +122,7 @@ public class GameController {
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-        Main.getBatch().setColor(1f,1f,1f,0.02df);
+        Main.getBatch().setColor(1f,1f,1f,0.02f);
 
         Main.getBatch().draw(Main.getMain().getGameAssetManager().getLightMaskTexture(), view.getPlayer().getPosition().x - 500 ,
             view.getPlayer().getPosition().y - 500 , 1000 ,1000);
