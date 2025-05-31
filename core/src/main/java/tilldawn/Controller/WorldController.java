@@ -27,7 +27,12 @@ public class WorldController {
         if (InputManager.isKeyJustPressed(DefaultsKeys.IncreaseLevel)) {
             if (Main.getCurrentGameView().getPlayer().increaseXp(Main.getCurrentGameView().getPlayer().neededXpForNextLevel())) {
                 Sfx.xpLevelUp(1);
-                Main.getCurrentGameView().getController().setTemporaryMessage("Level Up!",2);
+                String message = Main.getCurrentGameView().getController().getMessage();
+                if (message != null) {
+                    Main.getCurrentGameView().getController().setTemporaryMessage("Level Up!" + " (" + message + ")",2);
+                } else {
+                    Main.getCurrentGameView().getController().setTemporaryMessage("Level Up!",2);
+                }
             }
         }
 

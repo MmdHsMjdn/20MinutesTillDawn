@@ -37,6 +37,7 @@ public class GameView implements Screen, InputProcessor {
     private final int totalMinutes;
     private float passedTime = 0.0f;
     private boolean autoAim = false;
+    private boolean isPaused = false;
 
     public GameView(int index, int totalMinutes , Weapon defaultWeapon) {
         Bgm.playCaribbean();
@@ -66,11 +67,17 @@ public class GameView implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
-        controller.updateGame(delta);
+        if (!isPaused) {
+            controller.updateGame(delta);
+        }
         Main.getBatch().begin();
         controller.draw(delta);
         Main.getBatch().end();
+        controller.drawLightMask();
         controller.drawUHd();
+        if (isPaused) {
+            controller.drawPause();
+        }
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -198,5 +205,13 @@ public class GameView implements Screen, InputProcessor {
 
     public ArrayList<Drop> getDrops() {
         return drops;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
     }
 }

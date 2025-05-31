@@ -1,5 +1,6 @@
 package tilldawn.Model.Weapons;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import tilldawn.Main;
 import tilldawn.Model.Collidables.Bullet;
@@ -16,7 +17,7 @@ public class Smg extends Weapon{
     }
 
     @Override
-    public void shoot(Vector2 position, float angle , boolean shotByEnemy) {
+    public void shoot(Vector2 position, float angle , boolean shotByEnemy ,float ratio) {
         if (!canShoot()) {
             return;
         }
@@ -24,7 +25,10 @@ public class Smg extends Weapon{
         --currentAmmo;
 
         for (int i=0 ; i<projectTile; ++i) {
-            Bullet b = new Bullet(position.cpy(),angle,shotByEnemy,8);
+
+            float spread = MathUtils.random(-5f,5f);
+
+            Bullet b = new Bullet(position.cpy(),angle + spread,shotByEnemy,8);
             Main.getCurrentGameView().getBullets().add(b);
             Main.getCurrentGameView().getCollidables().add(b);
         }

@@ -20,6 +20,7 @@ import tilldawn.Model.Collidables.Enemy.TentacleMonster;
 import tilldawn.Model.Weapons.Weapon;
 
 import java.util.Iterator;
+import java.util.Random;
 
 public class Player {
 
@@ -49,6 +50,13 @@ public class Player {
     private int xp = 0;
     private int killsNumber = 0;
     private Levels level = Levels.One;
+    private boolean vitalityGained = false;
+    private boolean damagerGained = false;
+    private boolean proCreaseGained = false;
+    private boolean amoCreaseGained = false;
+    private boolean speedyGained = false;
+    private float damagerTimer = 0.0f;
+    private float speedyTimer = 0.0f;
 
     public Player(String username, int characterIndex, Weapon defaultWeapon) {
         this.username = username;
@@ -116,13 +124,20 @@ public class Player {
         updateAnimation(delta, moveInput);
         updateSprite();
         updateCollisionRect();
+        if (this.damagerGained) {
+            damagerTimer += delta;
+        }
+        if (speedyGained) {
+            speedyTimer += delta;
+        }
     }
 
     private void updateMovement(float delta, Vector2 moveInput) {
         soundStepTimer += delta;
+        int ratio = (speedyGained && speedyTimer < 10f) ? 2 : 1;
 
         if (!moveInput.isZero()) {
-            moveInput.nor().scl(speed * delta);
+            moveInput.nor().scl(speed * delta * ratio);
             Vector2 newPosition = new Vector2(position).add(moveInput);
 
             boolean collided = false;
@@ -241,7 +256,7 @@ public class Player {
     private void updateAnimation(float delta, Vector2 moveInput) {
         stateTimeForPlayerMove += delta;
         currentFrame = moveInput.isZero() ? walkAnimation.getKeyFrame(0) :
-                walkAnimation.getKeyFrame(stateTimeForPlayerMove, true);
+            walkAnimation.getKeyFrame(stateTimeForPlayerMove, true);
     }
 
     private void updateSprite() {
@@ -298,7 +313,12 @@ public class Player {
     }
 
     public void shoot() {
-        defaultWeapon.shoot(position.cpy(), playerSprite.getRotation(), false);
+        if (this.damagerGained && damagerTimer < 10f) {
+            defaultWeapon.shoot(position.cpy(), playerSprite.getRotation(), false, 1.25f);
+        } else {
+            defaultWeapon.shoot(position.cpy(), playerSprite.getRotation(), false, 1f);
+        }
+
     }
 
     public void reload() {
@@ -344,6 +364,9 @@ public class Player {
 
 
     public boolean increaseXp(int value) {
+
+        Levels current = this.level;
+
         this.xp += value;
         this.xp = Math.min(300, this.xp);
 
@@ -361,7 +384,112 @@ public class Player {
             this.level = Levels.Six;
         }
 
+        if (current != this.level) {
+            gainAbility();
+        }
+
         return !this.level.equals(Levels.Six);
+    }
+
+    private void gainAbility() {
+
+        Random random = new Random();
+
+        switch (random.nextInt(5)) {
+            case 0: {
+                if (activeVitality()) {
+                    return;
+                }
+                if (activeDamager()) {
+                    return;
+                }
+                if (activeProCrease()) {
+                    return;
+                }
+                if (activeAmoCrease()) {
+                    return;
+                }
+                if (activeSpeedy()) {
+                    return;
+                }
+            }
+            break;
+
+            case 1: {
+                if (activeSpeedy()) {
+                    return;
+                }
+                if (activeVitality()) {
+                    return;
+                }
+                if (activeDamager()) {
+                    return;
+                }
+                if (activeProCrease()) {
+                    return;
+                }
+                if (activeAmoCrease()) {
+                    return;
+                }
+            }
+            break;
+
+            case 2: {
+                if (activeAmoCrease()) {
+                    return;
+                }
+                if (activeSpeedy()) {
+                    return;
+                }
+                if (activeVitality()) {
+                    return;
+                }
+                if (activeDamager()) {
+                    return;
+                }
+                if (activeProCrease()) {
+                    return;
+                }
+            }
+            break;
+            case 3: {
+                if (activeProCrease()) {
+                    return;
+                }
+                if (activeAmoCrease()) {
+                    return;
+                }
+                if (activeSpeedy()) {
+                    return;
+                }
+                if (activeVitality()) {
+                    return;
+                }
+                if (activeDamager()) {
+                    return;
+                }
+            }
+            break;
+
+            case 4: {
+                if (activeDamager()) {
+                    return;
+                }
+                if (activeProCrease()) {
+                    return;
+                }
+                if (activeAmoCrease()) {
+                    return;
+                }
+                if (activeSpeedy()) {
+                    return;
+                }
+                if (activeVitality()) {
+                    return;
+                }
+            }
+            break;
+        }
     }
 
     public int getKillsNumber() {
@@ -399,5 +527,78 @@ public class Player {
         return username;
     }
 
+    private boolean activeVitality() {
+        if (this.vitalityGained) {
+            return false;
+        }
 
+        this.vitalityGained = true;
+        this.maxHealth *= 1.2f;
+        this.health += maxHealth / 6;
+        Main.getCurrentGameView().getController().setTemporaryMessage("You gained VITALITY", 2);
+        return true;
+    }
+
+    private boolean activeDamager() {
+        if (this.damagerGained) {
+            return false;
+        }
+
+        this.damagerGained = true;
+        Main.getCurrentGameView().getController().setTemporaryMessage("You gained DAMAGER", 2);
+        return true;
+
+    }
+
+    private boolean activeProCrease() {
+        if (this.proCreaseGained) {
+            return false;
+        }
+
+        this.proCreaseGained = true;
+        this.defaultWeapon.increaseProjectTile();
+        Main.getCurrentGameView().getController().setTemporaryMessage("You gained PROCREASE", 2);
+        return true;
+    }
+
+    private boolean activeAmoCrease() {
+        if (this.amoCreaseGained) {
+            return false;
+        }
+
+        this.amoCreaseGained = true;
+        this.defaultWeapon.increaseMaxAmmo();
+        Main.getCurrentGameView().getController().setTemporaryMessage("You gained AMOCREASED", 2);
+        return true;
+    }
+
+    private boolean activeSpeedy() {
+        if (this.speedyGained) {
+            return false;
+        }
+
+        this.speedyGained = true;
+        Main.getCurrentGameView().getController().setTemporaryMessage("You gained SPEEDY", 2);
+        return true;
+    }
+
+    public boolean isProCreaseGained() {
+        return proCreaseGained;
+    }
+
+    public boolean isAmoCreaseGained() {
+        return amoCreaseGained;
+    }
+
+    public boolean isVitalityGained() {
+        return vitalityGained;
+    }
+
+    public boolean isDamagerGained() {
+        return damagerGained;
+    }
+
+    public boolean isSpeedyGained() {
+        return speedyGained;
+    }
 }

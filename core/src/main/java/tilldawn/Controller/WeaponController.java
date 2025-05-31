@@ -1,7 +1,5 @@
 package tilldawn.Controller;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import tilldawn.Main;
@@ -50,10 +48,28 @@ public class WeaponController {
 
             if (player.getDefaultWeapon() instanceof Revolver) {
                 player.setDefaultWeapon(new Shotgun(autoReload));
+                if (player.isProCreaseGained()) {
+                    player.getDefaultWeapon().increaseProjectTile();
+                }
+                if (player.isAmoCreaseGained()) {
+                    player.getDefaultWeapon().increaseMaxAmmo();
+                }
             } else if (player.getDefaultWeapon() instanceof Shotgun) {
                 player.setDefaultWeapon(new Smg(autoReload));
+                if (player.isProCreaseGained()) {
+                    player.getDefaultWeapon().increaseProjectTile();
+                }
+                if (player.isAmoCreaseGained()) {
+                    player.getDefaultWeapon().increaseMaxAmmo();
+                }
             } else if (player.getDefaultWeapon() instanceof Smg) {
                 player.setDefaultWeapon(new Revolver(autoReload));
+                if (player.isProCreaseGained()) {
+                    player.getDefaultWeapon().increaseProjectTile();
+                }
+                if (player.isAmoCreaseGained()) {
+                    player.getDefaultWeapon().increaseMaxAmmo();
+                }
             }
 
             return;

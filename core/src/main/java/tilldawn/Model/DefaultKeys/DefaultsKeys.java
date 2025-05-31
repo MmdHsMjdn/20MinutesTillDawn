@@ -17,6 +17,9 @@ public enum DefaultsKeys {
     EnemiesGoAway(Input.Keys.X,InputType.Key),
     DecreaseTime(Input.Keys.T,InputType.Key),
     AutoReload(Input.Keys.Z,InputType.Key),
+    Pause(Input.Keys.ESCAPE,InputType.Key),
+    GiveUp(Input.Keys.G,InputType.Key),
+    Resume(Input.Keys.R,InputType.Key),
     AutoAim(Input.Keys.SPACE,InputType.Key),// changeable
     Shoot(Input.Buttons.LEFT,InputType.Mouse);// changeable
 

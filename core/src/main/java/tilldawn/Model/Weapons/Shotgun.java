@@ -15,7 +15,7 @@ public class Shotgun extends Weapon{
 
 
     @Override
-    public void shoot(Vector2 position, float angle, boolean shotByEnemy) {
+    public void shoot(Vector2 position, float angle, boolean shotByEnemy, float ratio) {
         if (!canShoot()) {
             return;
         }

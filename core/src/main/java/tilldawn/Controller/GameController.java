@@ -89,6 +89,10 @@ public class GameController {
             }
         }
 
+        if (InputManager.isKeyJustPressed(DefaultsKeys.Pause)) {
+            view.setPaused(true);
+        }
+
         Vector3 mouseWorldPosition = mouseWorldPosition();
         Vector2 playerMovement = playerMovement();
 
@@ -102,6 +106,7 @@ public class GameController {
     }
 
     public void draw(float delta) {
+
         worldController.draw();
         treeController.draw(camera);
         playerController.draw(delta);
@@ -109,6 +114,89 @@ public class GameController {
         bulletController.draw();
         enemyController.draw(delta);
     }
+
+    public void drawLightMask() {
+
+        Main.getBatch().setProjectionMatrix(camera.combined);
+        Main.getBatch().begin();
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+        Main.getBatch().setColor(1f,1f,1f,0.02df);
+
+        Main.getBatch().draw(Main.getMain().getGameAssetManager().getLightMaskTexture(), view.getPlayer().getPosition().x - 500 ,
+            view.getPlayer().getPosition().y - 500 , 1000 ,1000);
+
+        Main.getBatch().setColor(1f,1f,1f,1f);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Main.getBatch().end();
+
+    }
+
+    public void drawPause() {
+
+        ShapeRenderer sr = new ShapeRenderer();
+        Main.getBatch().setProjectionMatrix(hudCamera.combined);
+        sr.setProjectionMatrix(hudCamera.combined);
+        font.setColor(Color.MAGENTA);
+        font.getData().setScale(2);
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        sr.setColor(0, 0, 0, 0.6f);
+        sr.rect(0,0,viewWidth,viewHeight);
+        sr.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        Main.getBatch().begin();
+        font.draw(Main.getBatch(), "== PAUSED ==", viewWidth/2 - 70, viewHeight - 100);
+        font.draw(Main.getBatch(),"Cheat Codes", viewWidth/2 - 60, viewHeight - 200);
+        font.draw(Main.getBatch(), "L - Add character level", viewWidth/2 - 105, viewHeight - 250);
+        font.draw(Main.getBatch(), "H - Increase health", viewWidth/2 - 105, viewHeight - 300);
+        font.draw(Main.getBatch(), "T - Decrease game time", viewWidth/2 - 105, viewHeight - 350);
+        font.draw(Main.getBatch(), "X - Enemies run away", viewWidth/2 - 105, viewHeight -400);
+        font.draw(Main.getBatch(),"Abilities", viewWidth/2 -60, viewHeight - 500 );
+        int index = 0;
+        if (view.getPlayer().isVitalityGained()) {
+            index++;
+            font.draw(Main.getBatch(), "VITALITY", viewWidth/2 - 60, viewHeight - 500 - index * 50);
+        }
+        if (view.getPlayer().isDamagerGained()) {
+            index++;
+            font.draw(Main.getBatch(), "DAMAGER", viewWidth/2 - 60, viewHeight - 500 - index * 50);
+        }
+        if (view.getPlayer().isProCreaseGained()) {
+            index++;
+            font.draw(Main.getBatch(), "PROCREASE", viewWidth/2 - 60, viewHeight - 500 - index * 50);
+        }
+        if (view.getPlayer().isAmoCreaseGained()) {
+            index++;
+            font.draw(Main.getBatch(), "AMOCREASE", viewWidth/2 - 60, viewHeight - 500 - index * 50);
+        }
+        if (view.getPlayer().isSpeedyGained()) {
+            index++;
+            font.draw(Main.getBatch(), "SPEEDY", viewWidth/2 - 60, viewHeight - 500 - index * 50);
+        }
+
+
+        font.draw(Main.getBatch(),"Press R for Resume", viewWidth/2 - 90,  200);
+        font.draw(Main.getBatch(),"Press G for Give Up", viewWidth/2 - 85,  100);
+        Main.getBatch().end();
+
+
+
+
+
+
+
+        if (InputManager.isKeyJustPressed(DefaultsKeys.Resume)) {
+            view.setPaused(false);
+        } else if (InputManager.isKeyJustPressed(DefaultsKeys.GiveUp)) {
+            finishGame(true);
+        }
+    }
+
+
 
     public void drawUHd() {
         Main.getBatch().setProjectionMatrix(hudCamera.combined);
@@ -254,8 +342,12 @@ public class GameController {
         Cursor customCursor = Gdx.graphics.newCursor(pixmap, 0, 0);
         Gdx.graphics.setCursor(customCursor);
         pixmap.dispose();
-        
+
         Main.getMain().getScreen().dispose();
         Main.getMain().setScreen(new EndGameView(gameOver,minutes,seconds, view.getPlayer().getKillsNumber(),score));
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

@@ -28,6 +28,7 @@ public class GameAssetManager {
     private Texture bulletTexture;
     private Texture dropTexture;
     private Texture heartTexture;
+    private Texture lightMaskTexture;
     private Skin skin;
 
     public GameAssetManager() {
@@ -43,6 +44,7 @@ public class GameAssetManager {
         createEyebatMove();
         createTentacleMove();
         createHeart();
+        createLightMask();
     }
 
     private void setSkin() {
@@ -56,6 +58,10 @@ public class GameAssetManager {
 
     private void createHeart() {
         this.heartTexture = new Texture("Sprite/HeartAnimation/HeartAnimation_0.png");
+    }
+
+    private void  createLightMask() {
+        this.lightMaskTexture = new Texture("Sprite/lightMask/lightMask.png");
     }
 
     private void createDrop() {
@@ -170,6 +176,10 @@ public class GameAssetManager {
         frames[3] = new TextureRegion(new Texture("Sprite/DeathFX/DeathFX_3.png"));
         this.deathAnimation = new Animation<>(0.1f, frames);
 
+    }
+
+    public Texture getLightMaskTexture() {
+        return lightMaskTexture;
     }
 
     private void createDamage() {

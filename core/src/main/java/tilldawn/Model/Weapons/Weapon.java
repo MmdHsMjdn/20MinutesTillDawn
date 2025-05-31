@@ -54,7 +54,7 @@ public abstract class Weapon {
     }
 
 
-    public abstract void shoot(Vector2 position, float angle, boolean shotByEnemy);
+    public abstract void shoot(Vector2 position, float angle, boolean shotByEnemy, float ratio);
 
     public boolean canShoot() {
 
@@ -86,5 +86,13 @@ public abstract class Weapon {
 
     public void setAutoReload(boolean autoReload) {
         this.autoReload = autoReload;
+    }
+
+    public void increaseProjectTile() {
+        this.projectTile++;
+    }
+
+    public void increaseMaxAmmo() {
+        this.maxAmmo += 5;
     }
 }
